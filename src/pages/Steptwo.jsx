@@ -9,25 +9,28 @@ export const Steptwo = () => {
   const location = useLocation();
   const { parameters } = location.state || { parameters: [] }; // Eğer parametreler gelmezse varsayılan olarak boş bir dizi
   const myParams  = useSelector((state) => state.api.params);
+  const [arr, setArr] = useState([]);
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
-
+  const [outputData, setOutputData] = useState([]);
   const handleButtonClick = async () => {
     try {
-      const response = await fetch("http://localhost:3001/runSubfinder", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ domain: inputValue,parameters:myParams }),
-      }).then(async res=>console.log("res",await res.text()));
-     
+        const response = await fetch("http://localhost:3001/runSubfinder", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ domain: inputValue, parameters: myParams }),
+        });
+
+        const data = await response.json(); // JSON olarak al
+
+            setOutputData(data.output); // Çıktıyı işle
     } catch (error) {
-      console.error("Error:", error);
+        console.error("Error:", error);
     }
-  };
-  
+};
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <Navbar />
@@ -152,11 +155,12 @@ export const Steptwo = () => {
           </div>
           <input type="text" value={inputValue} onChange={handleInputChange} />
           <button onClick={handleButtonClick}>Continue</button>
-
-
-           <button onClick={()=>console.log("test value:",inputValue)}>test button</button>
+          <button onClick={()=>console.log("test value:",inputValue)}>test button</button>
+          <button onClick={()=>console.log("Melih test:", outputData)}>melih </button>
+           
+           <pre>{outputData.map((i)=><li>{i}</li>)}</pre>
         </div>
-      </div>
+      </div>  
     </div>
   );
 };
