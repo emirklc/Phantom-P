@@ -2,7 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   params: [],
+  prefix:"",
   url: "",
+  paramsTwo: [],
+  paramss:{},
 };
 
 export const apiSlice = createSlice({
@@ -15,6 +18,26 @@ export const apiSlice = createSlice({
       state.params = action.payload;
       //  state.username = action.payload;
              
+    },
+
+    setPrefix:(state, action) =>{
+     
+     
+      state.prefix = action.payload;
+   
+             
+    },
+    setParamss : (state, action) =>{
+     
+     
+      state.paramss = action.payload;
+   
+             
+    },
+
+    setParamsTwo:(state, action) =>{
+
+      state.paramsTwo = action.payload
     }
     // setMyData: (state, action) => {
     //   // 'params' ve 'url' değerlerini ayrı ayrı kontrol edip güncelleme
@@ -28,5 +51,5 @@ export const apiSlice = createSlice({
   },
 });
 
-export const { setParams } = apiSlice.actions;
+export const { setParams ,setPrefix,setParamss,setParamsTwo} = apiSlice.actions;
 export default apiSlice.reducer;

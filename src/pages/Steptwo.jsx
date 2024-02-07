@@ -9,19 +9,24 @@ export const Steptwo = () => {
   const location = useLocation();
   const { parameters } = location.state || { parameters: [] }; // Eğer parametreler gelmezse varsayılan olarak boş bir dizi
   const myParams  = useSelector((state) => state.api.params);
+  const myPrefix  = useSelector((state) => state.api.prefix);
+
+
   const [arr, setArr] = useState([]);
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
   const [outputData, setOutputData] = useState([]);
   const handleButtonClick = async () => {
-    try {
+  console.log("prefix:",myPrefix.prefix)
+  
+      try {
         const response = await fetch("http://localhost:3001/runSubfinder", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ domain: inputValue, parameters: myParams }),
+            body: JSON.stringify({ domain: inputValue, parameters: myParams, prefix: myPrefix.prefix }),
         });
 
         const data = await response.json(); // JSON olarak al
